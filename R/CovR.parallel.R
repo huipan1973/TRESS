@@ -11,10 +11,11 @@ CovR.parallel <- function(mat, sf, model, variable,
   #                Coef, phi, theta,
   #                mc.cores = 2 #max(1, detectCores() - 1)
   #                )
+  ncores <- ifelse(.Platform$OS.type=="windows", 1, max(1, detectCores() - 1))
   res = mclapply(seq_len(nrow(mat)), iCovR,
                  X, Y, sx, sy, D,
                  Coef, phi, theta,
-                 mc.cores = 2
+                 mc.cores = ncores
                  )
   R = matrix(NA, nrow = nrow(mat), ncol = ncol(D))
   Cov = vector("list", length = nrow(mat))

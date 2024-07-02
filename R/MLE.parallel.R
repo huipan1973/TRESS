@@ -18,11 +18,12 @@ MLE.parallel <- function(mat, sf, D){
   #                    mc.set.seed = TRUE,
   #                    mc.cores = 2 #max(1, detectCores() - 1)
   #                    )
+  ncores <- ifelse(.Platform$OS.type=="windows", 1, max(1, detectCores() - 1))
   res.MLE = mclapply(seq_len(nrow(Ratio)), iMLE,
                      X, Y, sx, sy,
                      Ratio, D,
                      mc.set.seed = TRUE,
-                     mc.cores = 2
+                     mc.cores = ncores
                      )
   #####
   res.MLE = matrix(unlist(res.MLE), nrow = length(res.MLE), byrow = TRUE)
